@@ -12,22 +12,18 @@ challenges = {
 
 
 def index(request):
-    challenges_html = "".join(map(
-        lambda challenge: f"""<li><a href="/challenges/{challenge}">{challenge}</a></li>""", list(challenges.keys())))
-
-    resp = f"""
-      <ul>
-        {challenges_html}
-      </ul>
-    """
-    return HttpResponse(resp)
+    return render(request, "index.challenges.html", {
+        "months": challenges.keys()
+    })
 
 
 # Create your views here.
 def monthly_challenge(request, month):
     challenge_text = challenges.get(month) or "not supported"
-    formatted_text = f"<h1>{challenge_text}</h1>"
-    return HttpResponse(formatted_text)
+    return render(request, "challenge.challenges.html", {
+        "month": month,
+        "challenge_text": challenge_text
+    })
 
 
 def monthly_challenge_num(request, month):
